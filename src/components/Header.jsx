@@ -1,8 +1,22 @@
-import React from "react";
-import {Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarContent, NavbarItem, Button} from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
+import {
+    Navbar,
+    NavbarBrand,
+    NavbarMenuToggle,
+    NavbarMenu,
+    NavbarMenuItem,
+    NavbarContent,
+    NavbarItem,
+    Button,
+} from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import {auth} from "../config/firebase.js";
+import UserAvatar from "./profile/UserAvatar.jsx";
+import LogoutBtn from "../features/auth/components/LogOutBtn.jsx";
 
 export default function Header() {
+    const [user, setUser] = useState(null);
+
     const menuItems = [
         "Profile",
         "Dashboard",
@@ -15,6 +29,14 @@ export default function Header() {
         "Help & Feedback",
         "Log Out",
     ];
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setUser(user);
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     return (
         <Navbar disableAnimation isBordered>
@@ -29,15 +51,10 @@ export default function Header() {
                 </NavbarBrand>
             </NavbarContent>
 
-            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            <NavbarContent className="hidden sm:flex gap-4 mb-0" justify="center">
                 <NavbarBrand>
                     <Link to="/" className="text-violet-950">Cll.byK</Link>
                 </NavbarBrand>
-                <NavbarItem>
-                    <Link color="foreground" to="/profile">
-                        Profile
-                    </Link>
-                </NavbarItem>
                 <NavbarItem isActive>
                     <Link to="/" aria-current="page" color="warning">
                         Customers
@@ -50,16 +67,25 @@ export default function Header() {
                 </NavbarItem>
             </NavbarContent>
 
-            <NavbarContent justify="end">
-                <NavbarItem className="hidden md:flex">
-                    <Link to="/login">Login</Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Button as={Link} color="warning" to="/signup" variant="flat">
-                        Sign Up
-                    </Button>
-                </NavbarItem>
+            <NavbarContent justify="end" className="mb-0">
+                {user ? (
+                    <><UserAvatar/>
+                        <LogoutBtn/>
+                    </>
+                ) : (
+                    <>
+                        <NavbarItem className="hidden md:flex">
+                            <Link to="/login">Login</Link>
+                        </NavbarItem>
+                        <NavbarItem>
+                            <Button as={Link} color="warning" to="/signup" variant="flat">
+                                Sign Up
+                            </Button>
+                        </NavbarItem>
+                    </>
+                )}
             </NavbarContent>
+
 
             <NavbarMenu>
                 {menuItems.map((item, index) => (

@@ -11,6 +11,7 @@ export default function Profile() {
                 <UserInfo/>
                 <div className="container">
                     <ProfileTable/>
+
                 </div>
 
             </div>

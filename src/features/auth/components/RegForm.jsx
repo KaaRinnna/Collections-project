@@ -5,6 +5,7 @@ import {EyeFilledIcon} from "./EyeFilledIcon.jsx";
 import {NavLink, useNavigate} from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../../../config/firebase.js";
+import Alert from "./ErrorAlert.jsx";
 
 export default function RegForm() {
     const [isVisible, setIsVisible] = React.useState(false);
@@ -13,6 +14,7 @@ export default function RegForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const [error, setError] = useState('');
 
     const signUp = async (e) => {
         e.preventDefault();
@@ -23,9 +25,9 @@ export default function RegForm() {
                 console.log(user);
             })
             .catch((error) => {
-                const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
+                setError(errorMessage);
+                console.log(errorMessage);
             });
     }
 
@@ -35,6 +37,7 @@ export default function RegForm() {
                 <CardHeader>
                     <h2 className='text-center'>Sign Up</h2>
                 </CardHeader>
+                {error && <Alert error={error}></Alert>}
                 <CardBody className="flex w-full flex-wrap md:flex-nowrap gap-4">
                     <Input type="text" label="Username" variant="bordered" size="md"/>
                     <Input

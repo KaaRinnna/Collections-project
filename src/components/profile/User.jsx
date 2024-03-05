@@ -1,7 +1,5 @@
 import React from "react";
-import {User, Avatar, AvatarIcon, Button} from "@nextui-org/react";
-import {Link} from "react-router-dom";
-import LogoutBtn from "../../features/auth/components/LogOut.jsx";
+import {User, Avatar, AvatarIcon} from "@nextui-org/react";
 
 export default function UserInfo() {
     return (
@@ -24,7 +22,6 @@ export default function UserInfo() {
                                     />
                                 )}
                             />
-                            <LogoutBtn/>
                         </div>
                     </div>
 

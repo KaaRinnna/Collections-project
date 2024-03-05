@@ -11,6 +11,8 @@ const Alert = ({error}) => {
             return "Incorrect password. Please try again.";
         } else if (errorMessage.includes("invalid-credential")) {
             return "Incorrect email or password";
+        } else if (errorMessage.includes("weak-password")) {
+            return "Password should be at least 6 characters."
         } else {
             return "An error occurred. Please try again later.";
         }
