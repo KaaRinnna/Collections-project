@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../components/Footer.jsx";
-import RegForm from "../features/auth/RegForm.jsx";
+import RegForm from "../features/auth/components/RegForm.jsx";
 
 export default function SignUp() {
     return (

@@ -1,5 +1,6 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarContent, NavbarItem, Button} from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
     const menuItems = [
@@ -24,26 +25,26 @@ export default function Header() {
 
             <NavbarContent className="sm:hidden pr-3" justify="center">
                 <NavbarBrand>
-                    Cll.byK
+                    <Link to="/" className="text-violet-950">Cll.byK</Link>
                 </NavbarBrand>
             </NavbarContent>
 
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarBrand>
-                    Cll.byK
+                    <Link to="/" className="text-violet-950">Cll.byK</Link>
                 </NavbarBrand>
                 <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Features
+                    <Link color="foreground" to="/profile">
+                        Profile
                     </Link>
                 </NavbarItem>
                 <NavbarItem isActive>
-                    <Link href="#" aria-current="page" color="warning">
+                    <Link to="/" aria-current="page" color="warning">
                         Customers
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link color="foreground" href="#">
+                    <Link  to="/" color="foreground">
                         Integrations
                     </Link>
                 </NavbarItem>
@@ -51,10 +52,10 @@ export default function Header() {
 
             <NavbarContent justify="end">
                 <NavbarItem className="hidden md:flex">
-                    <Link href="#">Login</Link>
+                    <Link to="/login">Login</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} color="warning" href="#" variant="flat">
+                    <Button as={Link} color="warning" to="/signup" variant="flat">
                         Sign Up
                     </Button>
                 </NavbarItem>
@@ -68,7 +69,7 @@ export default function Header() {
                             color={
                                 index === 2 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"
                             }
-                            href="#"
+                            to="/"
                             size="lg"
                         >
                             {item}

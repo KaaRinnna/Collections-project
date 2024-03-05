@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../components/Footer.jsx";
-import LoginForm from "../features/auth/LoginForm.jsx";
+import LoginForm from "../features/auth/components/LoginForm.jsx";
 
 export default function LogIn() {
     return (

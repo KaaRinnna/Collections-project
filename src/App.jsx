@@ -1,18 +1,17 @@
 import * as React from "react";
 import {NextUIProvider} from "@nextui-org/react";
-import { useState } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Profile from "./pages/Profile.jsx";
+import Home from "./pages/Home.jsx";
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <NextUIProvider>
       <div>
         <Router>
             <Routes>
-                <Route path="/" element={<Profile/>}/>
+                <Route path="/" element={<Home/>}/>
             </Routes>
         </Router>
       </div>
