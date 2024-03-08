@@ -21,7 +21,7 @@ export default function RegForm() {
         await createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                navigate("/profile");
+                navigate(`/profile/${user.uid}`);
                 console.log(user);
             })
             .catch((error) => {

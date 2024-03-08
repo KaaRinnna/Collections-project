@@ -1,7 +1,19 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {User, Avatar, AvatarIcon} from "@nextui-org/react";
+import {auth} from "../../config/firebase.js";
 
 export default function UserInfo() {
+    const [user, setUser] = useState(null);
+    console.log(user);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setUser(user);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     return (
         <div className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
 
@@ -10,33 +22,39 @@ export default function UserInfo() {
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-1 max-w-[20rem] lg:max-w-[20rem] border-gray-400 border-1 rounded-3xl">
                         <div className="flex flex-col items-center content-center justify-center py-2.5">
-                            <User
-                                name={(
-                                    <h4 className="mb-0 text-gray-200">Name</h4>
-                                )}
-                                description="New collectios lover"
-                                avatarProps={(
-                                    <Avatar
-                                        size="lg"
-                                        icon={<AvatarIcon/>}
-                                    />
-                                )}
-                            />
+                            {user && (
+                                <User
+                                    name={(
+                                        <h4 className="mb-0 text-gray-200">{user.name}</h4>
+                                    )}
+                                    description={(<p className="mb-0 text-gray-600" >New collectios lover</p>)}
+                                    avatarProps={(
+                                        <Avatar
+                                            className="bg-slate-400"
+                                            size="lg"
+                                            icon={<AvatarIcon/>}
+                                        />
+                                    )}
+                                />
+                            )}
+
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-1 lg:pt-2 border-gray-400 border-1 rounded-3xl">
-                        <div className="flex flex-col items-center content-center justify-center py-2.5 mx-1.5">
-                            <h4 className="text-start text-gray-200 mb-0">Profile Information</h4>
-                            <p className="text-start text-gray-400 mb-0">Email:</p>
-                        </div>
+                        {user && (
+                            <div className="flex flex-col items-center content-center justify-center py-2.5 mx-1.5">
+                                <h4 className="text-start text-gray-800 mb-0">Profile Information</h4>
+                                <p className="text-start text-gray-600 mb-0">Email: {user.email}</p>
+                            </div>
+                        )}
                     </div>
-
                 </div>
             </div>
 
             <div className="absolute left-1/2 top-0 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
-                <div className="aspect-[1155/678] w-[24.1875rem] bg-gradient-to-tr from-[#00ffc4] to-[#1000ff] opacity-30"/>
+                <div
+                    className="aspect-[1155/678] w-[24.1875rem] bg-gradient-to-tr from-[#00ffc4] to-[#1000ff] opacity-30"/>
             </div>
 
         </div>

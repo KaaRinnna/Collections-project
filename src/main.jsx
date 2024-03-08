@@ -5,8 +5,8 @@ import SignUp from "./pages/SignUp.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import LogIn from "./pages/LogIn.jsx";
 import Profile from "./pages/Profile.jsx";
-import './index.css'
-import "bootstrap/dist/css/bootstrap.min.css"
+import './index.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         element: <LogIn/>,
     },
     {
-        path: '/profile',
+        path: `/profile/:uid`,
         element: <Profile/>
     },
 ]);

@@ -5,7 +5,6 @@ import Footer from "../components/Footer.jsx";
 import Skeleton from "../components/HomeSkeleton.jsx";
 
 export default function Home() {
-
     return (
         <>
             <Header/>

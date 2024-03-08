@@ -22,7 +22,7 @@ export default function LoginForm() {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                navigate("/profile");
+                navigate(`/profile/${user.uid}`);
                 console.log(user);
             })
             .catch((error) => {

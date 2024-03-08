@@ -18,6 +18,10 @@ h4 {
   margin: 0;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   place-items: center;
