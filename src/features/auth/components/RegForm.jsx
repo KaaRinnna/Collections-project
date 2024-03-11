@@ -3,14 +3,16 @@ import {Card, CardHeader, CardBody, Input, Button } from "@nextui-org/react";
 import {EyeSlashFilledIcon} from "./EyeSlashFilledIcon.jsx";
 import {EyeFilledIcon} from "./EyeFilledIcon.jsx";
 import {NavLink, useNavigate} from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import {auth} from "../../../config/firebase.js";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {auth, db} from "../../../config/firebase.js";
 import Alert from "./ErrorAlert.jsx";
+import {collection, addDoc} from "firebase/firestore";
 
 export default function RegForm() {
     const [isVisible, setIsVisible] = React.useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
 
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -18,17 +20,32 @@ export default function RegForm() {
 
     const signUp = async (e) => {
         e.preventDefault();
-        await createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                navigate(`/profile/${user.uid}`);
-                console.log(user);
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                setError(errorMessage);
-                console.log(errorMessage);
+        try{
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            await updateProfile(user, {
+                displayName: name,
             });
+            navigate(`/profile/${user.uid}`);
+        } catch (error) {
+            const errorMessage = error.message;
+            setError(errorMessage);
+            console.log(errorMessage);
+        }
+
+        const newUser = {
+            name,
+            email,
+        };
+
+        try {
+             await addDoc(collection(db, "users"), {
+                ...newUser
+            });
+        } catch (error){
+            console.log(error)
+        }
+
     }
 
     return (
@@ -39,12 +56,19 @@ export default function RegForm() {
                 </CardHeader>
                 {error && <Alert error={error}></Alert>}
                 <CardBody className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                    <Input type="text" label="Username" variant="bordered" size="md"/>
+                    <Input
+                        isRequired
+                        type="text"
+                        label="Name"
+                        value={name}
+                        variant="bordered" size="md"
+                        onChange={(e) => setName(e.target.value)}
+                    />
                     <Input
                         isRequired
                         type="email"
                         label="Email"
-                        valie={email}
+                        value={email}
                         size="md" variant="bordered"
                         onChange={(e) => setEmail(e.target.value)}/>
                     <Input isRequired

@@ -23,6 +23,7 @@ export default function Header() {
     const btnRef = useRef();
     const [user, setUser] = useState(null);
 
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUser(user);
@@ -100,6 +101,13 @@ export default function Header() {
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
+                                                    {({active}) => (
+                                                        <Link to="/admin">
+                                                            Admin
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
                                                     {({ active }) => (
                                                         <LogoutBtn ref={btnRef} />
                                                     )}
@@ -117,9 +125,6 @@ export default function Header() {
                                         </Button>
                                     </>
                                 )}
-
-
-
                             </div>
                         </div>
                     </div>

@@ -4,11 +4,11 @@ import {auth} from "../../config/firebase.js";
 
 export default function UserInfo() {
     const [user, setUser] = useState(null);
-    console.log(user);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUser(user);
+            console.log(user)
         });
 
         return () => unsubscribe();
@@ -25,9 +25,9 @@ export default function UserInfo() {
                             {user && (
                                 <User
                                     name={(
-                                        <h4 className="mb-0 text-gray-200">{user.name}</h4>
+                                        <h4 className=" text-gray-800 mb-0">{user.displayName}</h4>
                                     )}
-                                    description={(<p className="mb-0 text-gray-600" >New collectios lover</p>)}
+                                    description={(<p className="mb-0 text-gray-600" >New collections lover</p>)}
                                     avatarProps={(
                                         <Avatar
                                             className="bg-slate-400"

@@ -8,6 +8,7 @@ import Profile from "./pages/Profile.jsx";
 import './index.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import AdminPage from "./pages/AdminPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
     },
     {
         path: `/profile/:uid`,
-        element: <Profile/>
+        element: <Profile/>,
+    },
+    {
+        path: '/admin',
+        element: <AdminPage/>,
     },
 ]);
 
