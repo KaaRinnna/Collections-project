@@ -23,7 +23,6 @@ export default function LoginForm() {
             .then((userCredential) => {
                 const user = userCredential.user;
                 navigate(`/profile/${user.uid}`);
-                console.log(user);
             })
             .catch((error) => {
                 const errorMessage = error.message;

@@ -6,7 +6,7 @@ import {NavLink, useNavigate} from "react-router-dom";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {auth, db} from "../../../config/firebase.js";
 import Alert from "./ErrorAlert.jsx";
-import {collection, addDoc} from "firebase/firestore";
+import {doc, setDoc} from "firebase/firestore";
 
 export default function RegForm() {
     const [isVisible, setIsVisible] = React.useState(false);
@@ -33,15 +33,17 @@ export default function RegForm() {
             console.log(errorMessage);
         }
 
+        const user = auth.currentUser;
         const newUser = {
             name,
             email,
+            uid: user.uid,
+            role: 'user',
         };
 
         try {
-             await addDoc(collection(db, "users"), {
-                ...newUser
-            });
+            const userDocRef = doc(db, 'users', user.uid);
+            await setDoc(userDocRef, newUser)
         } catch (error){
             console.log(error)
         }
