@@ -4,6 +4,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, db} from "../config/firebase.js";
 import {getDoc, doc} from "firebase/firestore";
 import {Navigate} from "react-router-dom";
+import Header from "../components/Header.jsx";
 
 export default function AdminPage() {
     const [user] = useAuthState(auth);
@@ -14,7 +15,6 @@ export default function AdminPage() {
             if (user && user.uid) {
                 const userDocRef = doc(db, 'users', user.uid);
                 const userDoc = await getDoc(userDocRef);
-                console.log(userDoc.data().role)
 
                 if (userDoc.exists() && userDoc.data().role === 'admin') {
                     setIsAdmin(true);
@@ -33,7 +33,10 @@ export default function AdminPage() {
     return (
         <div>
             {isAdmin ? (
-                <AdminTable/>
+                <>
+                    <Header/>
+                    <AdminTable/>
+                </>
             ) : (
                 <Navigate to="/"/>
             )}

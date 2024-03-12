@@ -4,12 +4,29 @@ import {Table, TableHeader, TableColumn, TableBody,
     Dropdown, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import {VerticalDotsIcon} from "./profile/VerticalDots.jsx";
 import {columns} from "../features/adminTable/adminData.js";
-import {db} from "../config/firebase.js";
-import {getDocs, collection} from "firebase/firestore";
+import {auth, db} from "../config/firebase.js";
+import {getDocs, getDoc, collection, doc, updateDoc} from "firebase/firestore";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 export default function AdminTable() {
     const [userList, setUserList] = useState([]);
     const usersRef = collection(db, "users");
+
+    const adminStatusChange = async (userId) => {
+        try {
+            const userRef = doc(db, 'users', userId);
+            const userDoc = await getDoc(userRef);
+
+            if (userDoc.exists()) {
+                const newRole = userDoc.data().role === 'admin' ? 'user' : 'admin';
+
+                await updateDoc(userRef, { role: newRole});
+            }
+        } catch (error) {
+            console.log('Error changing role', error)
+        }
+
+    }
 
     useEffect(() => {
         const getUserList = async () => {
@@ -48,6 +65,7 @@ export default function AdminTable() {
                                 <DropdownItem>View</DropdownItem>
                                 <DropdownItem>Edit</DropdownItem>
                                 <DropdownItem>Delete</DropdownItem>
+                                <DropdownItem onClick={() => adminStatusChange(user.id)}>Make an admin</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -60,7 +78,6 @@ export default function AdminTable() {
     return (
         <div className="max-w-[700px] mx-auto my-12">
             <h2 className="pt-2 text-start">Users</h2>
-
             <Table aria-label="Table with authenticated users" className="max-w-[700px] mx-auto my-10">
                 <TableHeader columns={columns}>
                     {(column) => (
@@ -78,7 +95,6 @@ export default function AdminTable() {
                     )}
                 </TableBody>
             </Table>
-
         </div>
     );
 }
