@@ -4,14 +4,46 @@ import {Table, TableHeader, TableColumn, TableBody,
     Dropdown, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import {VerticalDotsIcon} from "./profile/VerticalDots.jsx";
 import {columns} from "../features/adminTable/adminData.js";
-import {auth, db} from "../config/firebase.js";
+import {db} from "../config/firebase.js";
 import {getDocs, getDoc, collection, doc, updateDoc} from "firebase/firestore";
-import {useAuthState} from "react-firebase-hooks/auth";
+
+const getUserList = async () => {
+    const usersRef = collection(db, "users");
+    try {
+        const data = await getDocs(usersRef);
+        const usersData = [];
+        data.forEach((doc) => {
+            usersData.push({ id: doc.id, ...doc.data() });
+        });
+        return(usersData);
+    } catch (error) {
+        console.log('Error getting user list', error);
+    }
+};
 
 export default function AdminTable() {
     const [userList, setUserList] = useState([]);
-    const usersRef = collection(db, "users");
 
+    useEffect(() => {
+        const fetchUserList = async () => {
+            try {
+                const usersData = await getUserList();
+                setUserList(usersData);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchUserList();
+    }, []);
+
+    const updateUserList = async () => {
+        try {
+            const usersData = await getUserList();
+            setUserList(usersData);
+        } catch (error) {
+            console.log('Error updating user list', error);
+        }
+    }
     const adminStatusChange = async (userId) => {
         try {
             const userRef = doc(db, 'users', userId);
@@ -19,30 +51,13 @@ export default function AdminTable() {
 
             if (userDoc.exists()) {
                 const newRole = userDoc.data().role === 'admin' ? 'user' : 'admin';
-
-                await updateDoc(userRef, { role: newRole});
+                await updateDoc(userRef, { role: newRole });
             }
+            await updateUserList();
         } catch (error) {
-            console.log('Error changing role', error)
+            console.log('Error changing role', error);
         }
-
     }
-
-    useEffect(() => {
-        const getUserList = async () => {
-            try {
-                const data = await getDocs(usersRef);
-                const usersData = [];
-                data.forEach((doc) => {
-                    usersData.push({ id: doc.id, ...doc.data() });
-                });
-                setUserList(usersData);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getUserList();
-    }, []);
 
     const renderCell = React.useCallback((user, columnKey) => {
         const cellValue = user[columnKey];
@@ -65,7 +80,8 @@ export default function AdminTable() {
                                 <DropdownItem>View</DropdownItem>
                                 <DropdownItem>Edit</DropdownItem>
                                 <DropdownItem>Delete</DropdownItem>
-                                <DropdownItem onClick={() => adminStatusChange(user.id)}>Make an admin</DropdownItem>
+                                <DropdownItem onClick={async() => await adminStatusChange(user.id)}>
+                                    Un/Make an admin</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
