@@ -3,6 +3,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Dropdow
 import {columns, users} from "../../features/collectionsProfile/data.js";
 import {VerticalDotsIcon} from "./VerticalDots.jsx";
 import {PlusIcon} from "./PlusIcon.jsx";
+import {useNavigate} from "react-router-dom";
 
 const statusColorMap = {
     active: "success",
@@ -46,7 +47,7 @@ export default function ProfileTable() {
     }, []);
 
     return (
-        <div className="max-w-[700px] mx-auto my-12">
+        <div className="max-w-[700px] mx-auto mt-1 mb-12">
             <h2 className="pt-2 text-start">My collections</h2>
             <Table aria-label="Example table with custom cells" className="max-w-[700px] mx-auto my-10">
                 <TableHeader columns={columns}>
@@ -64,7 +65,7 @@ export default function ProfileTable() {
                     )}
                 </TableBody>
             </Table>
-            <Button color="primary" endContent={<PlusIcon />} className="justify-end">
+            <Button onClick={() => {const navigate = useNavigate(); navigate("/collection-creation")}} color="primary" endContent={<PlusIcon />} className="justify-end">
                 Add New
             </Button>
         </div>

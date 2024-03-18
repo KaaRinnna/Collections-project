@@ -17,19 +17,18 @@ export default function Hero() {
                             <p className="text-gray-300 pt-2.5 mb-0">Add various items to your collections.</p>
                             <p className="text-gray-300">Edit, delete, add, inspect.</p>
                             <Link to="/profile"
-                                className="bg-indigo-900 py-2 px-4 mt-2.5 rounded-3xl text-gray-200 border-1 border-indigo-900 hover:bg-transparent hover:text-gray-200 hover:no-underline">
+                                className="customBtn bg-indigo-900 py-2 px-4 mt-2.5 rounded-3xl text-gray-200 border-1 border-indigo-900 hover:bg-transparent hover:text-gray-200 hover:no-underline">
                                 Get Started!
                             </Link>
-
                         </div>
                     </div>
 
                     <div
                         className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-1 lg:pt-2 ">
                         <div className="flex flex-col items-center max-md:items-start content-center justify-center py-2.5 mx-1.5">
-                            <h3 className="text-gray-100 max-md:text-start">Books, movies, marks, coins...</h3>
+                            <h2 className="text-gray-100 text-center max-md:text-start">Books, movies, marks, coins...</h2>
                             <p className="text-gray-300">...and anything you like!</p>
-                            <p className="text-gray-300 max-md:text-start">Browse other authors` collections. Comment and like items!</p>
+                            <p className="text-gray-300 text-center max-md:text-start">Browse other authors` collections. Comment and like items!</p>
                         </div>
                     </div>
 

@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../src/assets/css/custom.css";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AdminPage from "./pages/AdminPage.jsx";
+import CollectionCreationPage from "./pages/CollectionCreationPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     {
         path: '/admin',
         element: <AdminPage/>,
+    },
+    {
+        path: '/collection',
+        element: <CollectionCreationPage/>,
     },
 ]);
 

@@ -4,8 +4,9 @@ import {Table, TableHeader, TableColumn, TableBody,
     Dropdown, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import {VerticalDotsIcon} from "./profile/VerticalDots.jsx";
 import {columns} from "../features/adminTable/adminData.js";
-import {db} from "../config/firebase.js";
-import {getDocs, getDoc, collection, doc, updateDoc} from "firebase/firestore";
+import {db, auth} from "../config/firebase.js";
+import {getDocs, getDoc, collection, doc, updateDoc, deleteDoc} from "firebase/firestore";
+import {useNavigate} from "react-router-dom";
 
 const getUserList = async () => {
     const usersRef = collection(db, "users");
@@ -23,6 +24,7 @@ const getUserList = async () => {
 
 export default function AdminTable() {
     const [userList, setUserList] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserList = async () => {
@@ -44,6 +46,15 @@ export default function AdminTable() {
             console.log('Error updating user list', error);
         }
     }
+
+    const viewUser = async (userId) => {
+        try {
+            navigate(`/profile/${userId}`);
+        } catch (error) {
+            console.log('Error viewing user page', error);
+        }
+    }
+
     const adminStatusChange = async (userId) => {
         try {
             const userRef = doc(db, 'users', userId);
@@ -58,6 +69,8 @@ export default function AdminTable() {
             console.log('Error changing role', error);
         }
     }
+
+
 
     const renderCell = React.useCallback((user, columnKey) => {
         const cellValue = user[columnKey];
@@ -77,11 +90,13 @@ export default function AdminTable() {
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu>
-                                <DropdownItem>View</DropdownItem>
-                                <DropdownItem>Edit</DropdownItem>
-                                <DropdownItem>Delete</DropdownItem>
+                                <DropdownItem onClick={() => viewUser(user.id)}>
+                                    View
+                                </DropdownItem>
+                                <DropdownItem>Block/unblock</DropdownItem>
                                 <DropdownItem onClick={async() => await adminStatusChange(user.id)}>
-                                    Un/Make an admin</DropdownItem>
+                                    Make/unmake an admin
+                                </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -91,9 +106,36 @@ export default function AdminTable() {
         }
     }, []);
 
+    const deleteUser = function () {
+        const uid = '47tMMwxM01gaq7xk87599Kchftd2';
+
+        fetch('/deleteUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({uid})
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка удаления пользователя front');
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log(data);
+                alert('Пользователь успешно удален front');
+            })
+            .catch(error => {
+                console.error(error);
+                alert('Ошибка удаления пользователя front');
+            });
+    }
+
     return (
         <div className="max-w-[700px] mx-auto my-12">
             <h2 className="pt-2 text-start">Users</h2>
+            <Button onClick={deleteUser}>Delete</Button>
             <Table aria-label="Table with authenticated users" className="max-w-[700px] mx-auto my-10">
                 <TableHeader columns={columns}>
                     {(column) => (

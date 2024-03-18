@@ -14,7 +14,7 @@ export default function UserInfo() {
     }, []);
 
     return (
-        <div className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
+        <div className="relative isolate overflow-hidden py-16 sm:py-24 lg:py-28">
 
             <div className="mx-auto px-6 lg:px-8 lg:max-w-4xl md:max-w-3xl sm:max-w-sm max-sm:max-w-sm">
                 <div className="mx-auto grid grid-cols-1 gap-x-4 gap-y-16 lg:max-w-none md:grid-cols-2">

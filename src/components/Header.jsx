@@ -33,7 +33,7 @@ export default function Header() {
     }, []);
 
     return (
-        <Disclosure as="nav" className=" bg-background/70 z-10 w-full sticky top-0 inset-x-0 border-b border-divider backdrop-blur-lg backdrop-saturate-150">
+        <Disclosure as="nav" className=" bg-background/70 z-20 w-full sticky top-0 inset-x-0 border-b border-divider backdrop-blur-lg backdrop-saturate-150">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -60,7 +60,7 @@ export default function Header() {
                                                 key={item.name}
                                                 to={item.to}
                                                 className={classNames(
-                                                    item.current ? 'bg-indigo-900 text-white' : 'text-gray-800 hover:bg-slate-500 hover:text-white',
+                                                    item.current ? 'bg-indigo-900 text-white rounded-2xl' : ' customBtn headerLinks text-gray-800',
                                                     'rounded-md px-3 py-2 text-sm font-medium'
                                                 )}
                                                 aria-current={item.current ? 'page' : undefined}
