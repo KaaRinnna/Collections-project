@@ -12,7 +12,7 @@ import {Button} from "@nextui-org/react";
 const navigation = [
     { name: 'Home', to: '/', current: true },
     { name: 'Team', to: '#', current: false },
-    { name: 'Collections', to: '#', current: false },
+    { name: 'Collections', to: '/collections/collection', current: false },
 ]
 
 function classNames(...classes) {

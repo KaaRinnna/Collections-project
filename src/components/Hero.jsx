@@ -16,7 +16,7 @@ export default function Hero() {
                             <h1 className="text-gray-100 text-start">Create your own collection</h1>
                             <p className="text-gray-300 pt-2.5 mb-0">Add various items to your collections.</p>
                             <p className="text-gray-300">Edit, delete, add, inspect.</p>
-                            <Link to="/profile"
+                            <Link to="/collections/create-collection"
                                 className="customBtn bg-indigo-900 py-2 px-4 mt-2.5 rounded-3xl text-gray-200 border-1 border-indigo-900 hover:bg-transparent hover:text-gray-200 hover:no-underline">
                                 Get Started!
                             </Link>

@@ -41,7 +41,6 @@ const Topics = React.forwardRef(({ onSelectionChange }, ref) => {
             >
                 {(item) => <AutocompleteItem key={item.value} value={item.value}>{item.label}</AutocompleteItem>}
             </Autocomplete>
-            <p>{selectedKey}</p>
         </div>
     );
 });

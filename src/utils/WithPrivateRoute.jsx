@@ -1,19 +1,48 @@
-import {Navigate} from "react-router-dom";
-import {createContext, useContext} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {auth, db} from "../config/firebase.js";
+import {useEffect, useState} from "react";
+import {doc, getDoc} from "firebase/firestore";
 
-const AuthContext = createContext();
-function useAuth() {
-    return useContext(AuthContext);
-}
+const PrivateRoute = ({ children }) => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const {uid} = useParams();
+    const [isAuthorized, setIsAuthorized] = useState(false);
 
-const WithPrivateRoute = ({ children }) => {
-    const { currentUser } = useAuth();
+    useEffect(() => {
+        const checkUser = async () => {
+            const userRef = doc(db, 'users', auth.currentUser.uid);
+            const userDoc = await getDoc(userRef);
 
-    if (currentUser) {
-        return children;
+            if (userDoc.exists()) {
+                const userRole = userDoc.data().role;
+                if (auth.currentUser.uid === uid || userRole === 'admin') {
+                    setIsAuthorized(true);
+                } else {
+                    navigate("/");
+                }
+            } else {
+                navigate("/login");
+            }
+            setLoading(false);
+        };
+
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                checkUser();
+            } else {
+                navigate("/login");
+                setLoading(false);
+            }
+        });
+
+        return () => unsubscribe();
+    }, [navigate, uid]);
+
+    if (loading) {
+        return null; // сделать компонент загрузки
     }
-
-    return <Navigate to="/login" />
+    return isAuthorized ? children : null;
 };
 
-export default WithPrivateRoute;
+export default PrivateRoute;

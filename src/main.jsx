@@ -11,6 +11,9 @@ import "../src/assets/css/custom.css";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AdminPage from "./pages/AdminPage.jsx";
 import CollectionCreationPage from "./pages/CollectionCreationPage.jsx";
+import PrivateRoute from "./utils/WithPrivateRoute.jsx";
+import LoginRoute from "./utils/OnlyLoginRoute.jsx";
+import CollectionPage from "./pages/CollectionPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -28,15 +31,19 @@ const router = createBrowserRouter([
     },
     {
         path: `/profile/:uid`,
-        element: <Profile/>,
+        element: <PrivateRoute><Profile/></PrivateRoute>,
     },
     {
         path: '/admin',
-        element: <AdminPage/>,
+        element: <PrivateRoute><AdminPage/></PrivateRoute>,
     },
     {
-        path: '/collection',
-        element: <CollectionCreationPage/>,
+        path: '/collections/create-collection',
+        element: <LoginRoute><CollectionCreationPage/></LoginRoute>,
+    },
+    {
+        path: '/collections/collection',
+        element: <CollectionPage/>,
     },
 ]);
 

@@ -3,7 +3,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Dropdow
 import {columns, users} from "../../features/collectionsProfile/data.js";
 import {VerticalDotsIcon} from "./VerticalDots.jsx";
 import {PlusIcon} from "./PlusIcon.jsx";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const statusColorMap = {
     active: "success",
@@ -65,9 +65,9 @@ export default function ProfileTable() {
                     )}
                 </TableBody>
             </Table>
-            <Button onClick={() => {const navigate = useNavigate(); navigate("/collection-creation")}} color="primary" endContent={<PlusIcon />} className="justify-end">
+            <Link to="/collections/create-collection" color="primary" endContent={<PlusIcon />} className="justify-end" >
                 Add New
-            </Button>
+            </Link>
         </div>
     );
 }

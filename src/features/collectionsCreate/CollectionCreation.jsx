@@ -56,7 +56,7 @@ export default function CollectionCreation() {
     }
 
     return (
-        <div className="max-w-[640px] w-full mx-auto">
+        <div className="max-w-[640px] w-full mx-auto my-8">
             <Card className="min-w-0">
                 <CardHeader>
                     <h1 className='text-center'>Create a new collection</h1>
