@@ -8,11 +8,14 @@ import {PlusIcon} from "../../components/profile/PlusIcon.jsx";
 import FieldSelect from "./FieldSelect.jsx";
 import {db, auth} from "../../config/firebase.js";
 import {collection, addDoc} from "firebase/firestore";
+import {useNavigate} from "react-router-dom";
 
 export default function CollectionCreation() {
+    const navigate = useNavigate();
+
     const schema = yup.object().shape({
         collectionName: yup.string().required().min(2),
-        description: yup.string().required().min(4),
+        description: yup.string().required().min(2),
     })
 
     const { register, handleSubmit, formState: {errors}, unregister
@@ -42,8 +45,8 @@ export default function CollectionCreation() {
         })
         try {
             const collRef = collection(db, "collections");
-            await addDoc(collRef, newData);
-            console.log('success');
+            const newDocRef = await addDoc(collRef, newData);
+            navigate(`/collections/collection/${newDocRef.id}`)
         } catch (err) {
             console.log(err)
         }
@@ -72,7 +75,7 @@ export default function CollectionCreation() {
                         {...register("collectionName")}
                         placeholder="Enter your collection`s name"
                         className="my-1.5"
-                        errorMessage={errors.name?.message}
+                        errorMessage={errors.collectionName?.message}
                     />
                     <Textarea
                         isRequired

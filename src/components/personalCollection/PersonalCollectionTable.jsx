@@ -1,10 +1,12 @@
 import React, {useEffect} from "react";
 import {db} from "../../config/firebase.js";
 import {doc, getDoc, collection, getDocs} from "firebase/firestore";
+import {useParams} from "react-router-dom";
 export default function PersonalTable() {
-    const docRef = doc(db, 'collections', 'xGpp9Ui4RbHdMiVCOQBU');
+    const {id} = useParams();
+    const docRef = doc(db, 'collections', id);
     const [tableList, setTableList] = React.useState([]);
-    const itemsRef = collection(db, 'collections', 'xGpp9Ui4RbHdMiVCOQBU', 'items');
+    const itemsRef = collection(db, 'collections', id, 'items');
     const [itemList, setItemList] = React.useState([]);
 
     useEffect(() => {
@@ -38,11 +40,14 @@ export default function PersonalTable() {
                     <th>Name</th>
 
                     <th>{tableList.custom_string1_name}</th>
-                    <th>{tableList.custom_string2_name}</th>
-                    <th>{tableList.custom_string3_name}</th>
 
-                    <th>{tableList.custom_int1_name}</th>
+                    <th>{tableList.custom_number1_name}</th>
 
+                    <th>{tableList.custom_date1_name}</th>
+
+                    <th>{tableList.custom_text1_name}</th>
+
+                    <th>{tableList.custom_checkbox1_name}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,10 +57,14 @@ export default function PersonalTable() {
                         <td>{item.item_name}</td>
 
                         <td>{item.custom_string1_name}</td>
-                        <td>{item.custom_string2_name}</td>
-                        <td>{item.custom_string3_name}</td>
 
-                        <td>{item.custom_int1_name}</td>
+                        <td>{item.custom_number1_name}</td>
+
+                        <td>{item.custom_date1_name.toDate().toString()}</td>
+
+                        <td>{item.custom_text1_name}</td>
+
+                        <td>{item.custom_checkbox1_name.toString()}</td>
                     </tr>
                 ))}
 

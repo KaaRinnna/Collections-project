@@ -10,9 +10,20 @@ import {db} from "../../config/firebase.js";
 export default function ItemForm() {
     const [selectedKey, setSelectedKey] = React.useState(null);
     const [docFields, setDocFields] = React.useState([]);
-    const schema = yup.object().shape({
-        item_name: yup.string().required(),
+
+    let validationSchema = {
+        item_name: yup.string().required().min(1),
+    };
+
+    Object.keys(docFields).forEach((key) => {
+        if (key.includes('int')) {
+            validationSchema[key] = yup.number();
+        } else if (key.includes('date')) {
+            validationSchema[key] = yup.date();
+        }
     });
+
+    const schema = yup.object().shape(validationSchema);
 
     const {register, handleSubmit, formState: {errors}
     } = useForm({
@@ -30,7 +41,6 @@ export default function ItemForm() {
         } catch (err) {
             console.log(err);
         }
-
     }
 
     useEffect(() => {
@@ -41,7 +51,6 @@ export default function ItemForm() {
                     ...doc.data()
                 }
                 setDocFields(docData);
-                console.log(docData);
             });
             return unsubscribe;
         }
@@ -66,18 +75,23 @@ export default function ItemForm() {
                         className="my-1.5"
                         label="ItemName"
                         placeholder="Enter your item`s name"
-                        {...register("item_name")} />
+                        {...register("item_name")}
+                        errorMessage={errors.item_name?.message}
+                    />
 
                     {Object.keys(docFields).map((key) => {
                         if (key.startsWith('custom_') && key.endsWith('_name')) {
+                            const typeKey = key.slice(7,-6);
                             const stateKey = key.replace('_name', '_state');
                             if (docFields[stateKey] === true) {
                                 return (
                                     <div key={key}>
                                         <Input
+                                            type={typeKey}
                                             label={docFields[key]}
                                             className="my-1.5"
                                             {...register(key)}
+                                            errorMessage={errors[key]?.message}
                                         />
                                     </div>
                                 )

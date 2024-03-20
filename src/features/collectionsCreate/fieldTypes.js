@@ -1,7 +1,7 @@
 export const fieldTypes = [
-    {label: "Integer", value: "int"},
+    {label: "Numeric", value: "number"},
     {label: "String", value: "string"},
-    {label: "Multiline text", value: "multiline"},
+    {label: "Text", value: "text"},
     {label: "Checkbox", value: "checkbox"},
     {label: "Date", value: "date"},
 

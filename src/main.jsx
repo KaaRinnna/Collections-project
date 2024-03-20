@@ -42,7 +42,7 @@ const router = createBrowserRouter([
         element: <LoginRoute><CollectionCreationPage/></LoginRoute>,
     },
     {
-        path: '/collections/collection',
+        path: '/collections/collection/:id',
         element: <CollectionPage/>,
     },
 ]);

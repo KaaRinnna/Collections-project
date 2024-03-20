@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Autocomplete, AutocompleteItem, Button, Input} from "@nextui-org/react";
+import {Autocomplete, AutocompleteItem, Input} from "@nextui-org/react";
 import {fieldTypes} from "./fieldTypes.js";
-import {PlusIcon} from "../../components/profile/PlusIcon.jsx";
 export default function FieldSelect({register, unregister}) {
     const [selectedKey, setSelectedKey] = useState(null);
     const prevKeyRef = useRef();
-    const [fields, setFields] = useState({int: [{}, {}, {}], string: [{}, {}, {}],
-        multiline: [{}, {}, {}], checkbox: [{}, {}, {}], date: [{}, {}, {}]});
+    const [fields, setFields] = useState({number: [{}, {}, {}], string: [{}, {}, {}],
+        text: [{}, {}, {}], checkbox: [{}, {}, {}], date: [{}, {}, {}]});
 
     useEffect(() => {
         if (prevKeyRef.current && prevKeyRef.current !== selectedKey) {
@@ -34,7 +33,7 @@ export default function FieldSelect({register, unregister}) {
                 onSelectionChange={onSelectionChange}
             >
                 {fieldTypes.map((field) => (
-                    <AutocompleteItem key={field.value} value={field.value}>
+                    <AutocompleteItem key={field.value} value={field.value} >
                         {field.label}
                     </AutocompleteItem>
                 ))}
