@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
 import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
-import {collection, getDocs} from "firebase/firestore";
-import {db} from "../../config/firebase.js";
+import {collection, doc, getDoc, getDocs} from "firebase/firestore";
+import {db, auth} from "../../config/firebase.js";
 
 const SelectColl = React.forwardRef(({onSelectionChange}, ref) => {
     const [items, setItems] = React.useState([]);
     const collRef = collection(db, 'collections');
+    const [role, setRole] = React.useState(null);
 
     useEffect(() => {
         const fetchColl = async () => {
@@ -22,6 +23,18 @@ const SelectColl = React.forwardRef(({onSelectionChange}, ref) => {
         fetchColl();
     }, []);
 
+    useEffect(() => {
+        const checkRole = async () => {
+            const userRef = doc(db, 'users', auth.currentUser.uid);
+            const userDoc = await getDoc(userRef);
+            if (userDoc.exists()) {
+                const userRole = userDoc.data().role;
+                setRole(userRole);
+            }
+        }
+        checkRole();
+    }, []);
+
 
     return (
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
@@ -34,7 +47,13 @@ const SelectColl = React.forwardRef(({onSelectionChange}, ref) => {
                 defaultItems={items}
                 items={items}
             >
-                {(item) => <AutocompleteItem>{item.collectionName}</AutocompleteItem>}
+                {(item) => {
+                    if (item.user_id === auth.currentUser.uid || role === 'admin') {
+                        return <AutocompleteItem className="dark:text-gray-200" >{item.collectionName}</AutocompleteItem>;
+                    } else {
+                        return null;
+                    }
+                }}
             </Autocomplete>
         </div>
     )

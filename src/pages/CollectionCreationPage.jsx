@@ -8,9 +8,8 @@ export default function CollectionCreationPage() {
     return (
         <div>
             <Header/>
-            <div>
+            <div className="container content">
                 <CollectionCreation/>
-                <ItemForm/>
             </div>
             <Footer/>
         </div>

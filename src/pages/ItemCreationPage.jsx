@@ -1,16 +1,16 @@
 import Header from "../components/Header.jsx";
-import PersonalTable from "../components/personalCollection/PersonalCollectionTable.jsx";
-import React from "react";
+import ItemForm from "../features/itemsCreate/ItemForm.jsx";
 import Footer from "../components/Footer.jsx";
+import React from "react";
 
-export default function CollectionPage() {
+export default function ItemCreationPage() {
     return (
-        <>
+        <div>
             <Header/>
             <div className="container content">
-                <PersonalTable/>
+                <ItemForm/>
             </div>
             <Footer/>
-        </>
+        </div>
     )
 }

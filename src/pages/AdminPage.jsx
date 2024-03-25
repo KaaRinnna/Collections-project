@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
-import AdminTable from "../components/AdminTable.jsx";
+import AdminTable from "../features/adminTable/AdminTable.jsx";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth, db} from "../config/firebase.js";
 import {getDoc, doc} from "firebase/firestore";
 import {Navigate} from "react-router-dom";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
 
 export default function AdminPage() {
     const [user] = useAuthState(auth);
@@ -32,14 +33,15 @@ export default function AdminPage() {
 
     return (
         <div>
+            <Header/>
             {isAdmin ? (
-                <>
-                    <Header/>
+                <div className="content container">
                     <AdminTable/>
-                </>
+                </div>
             ) : (
                 <Navigate to="/"/>
             )}
+            <Footer/>
         </div>
     )
 }

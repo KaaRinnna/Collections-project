@@ -14,6 +14,8 @@ import CollectionCreationPage from "./pages/CollectionCreationPage.jsx";
 import PrivateRoute from "./utils/WithPrivateRoute.jsx";
 import LoginRoute from "./utils/OnlyLoginRoute.jsx";
 import CollectionPage from "./pages/CollectionPage.jsx";
+import ItemCreationPage from "./pages/ItemCreationPage.jsx";
+import ItemPage from "./pages/ItemPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -42,8 +44,16 @@ const router = createBrowserRouter([
         element: <LoginRoute><CollectionCreationPage/></LoginRoute>,
     },
     {
+        path: '/collections/create-item',
+        element: <LoginRoute><ItemCreationPage/></LoginRoute>,
+    },
+    {
         path: '/collections/collection/:id',
         element: <CollectionPage/>,
+    },
+    {
+        path: '/collections/collection/:id/item/:itemId',
+        element: <ItemPage/>,
     },
 ]);
 

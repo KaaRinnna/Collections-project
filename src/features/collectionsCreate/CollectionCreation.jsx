@@ -59,7 +59,7 @@ export default function CollectionCreation() {
     }
 
     return (
-        <div className="max-w-[640px] w-full mx-auto my-8">
+        <div className="max-w-[640px] w-full mx-auto my-12">
             <Card className="min-w-0">
                 <CardHeader>
                     <h1 className='text-center'>Create a new collection</h1>
@@ -93,7 +93,7 @@ export default function CollectionCreation() {
                         collection and give it a name. E.g. 'Author', 'Year of publish' etc. </p>
 
                         {fieldSelect}
-                        <Button onClick={addFieldSelect}  endContent={<PlusIcon />} className="justify-end">
+                        <Button onClick={addFieldSelect} endContent={<PlusIcon />} className="justify-end my-2">
                             Add New
                         </Button>
 

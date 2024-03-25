@@ -2,14 +2,16 @@ import React, {useEffect} from "react";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {Button, Card, CardHeader, Input} from "@nextui-org/react";
+import {Button, Card, CardHeader, Checkbox, Input} from "@nextui-org/react";
 import SelectColl from "./SelectColl.jsx";
 import {addDoc, collection, doc, onSnapshot} from "firebase/firestore";
 import {db} from "../../config/firebase.js";
+import {useNavigate} from "react-router-dom";
 
 export default function ItemForm() {
     const [selectedKey, setSelectedKey] = React.useState(null);
     const [docFields, setDocFields] = React.useState([]);
+    const navigate = useNavigate();
 
     let validationSchema = {
         item_name: yup.string().required().min(1),
@@ -37,7 +39,7 @@ export default function ItemForm() {
         const subCollectionRef = collection(db, `collections/${selectedKey}/items`);
         try {
             await addDoc(subCollectionRef, newData);
-            console.log('success');
+            navigate(`/collections/collection/${selectedKey}`);
         } catch (err) {
             console.log(err);
         }
@@ -61,7 +63,7 @@ export default function ItemForm() {
     }
 
     return (
-        <div className="max-w-[640px] w-full mx-auto my-8">
+        <div className="max-w-[640px] w-full mx-auto my-12">
             <Card className="min-w-0">
                 <CardHeader>
                     <h2 className="text-center">Create an item for your collection</h2>
@@ -93,6 +95,7 @@ export default function ItemForm() {
                                             {...register(key)}
                                             errorMessage={errors[key]?.message}
                                         />
+
                                     </div>
                                 )
                             }

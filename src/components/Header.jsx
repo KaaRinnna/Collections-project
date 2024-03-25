@@ -8,10 +8,10 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Button} from "@nextui-org/react";
+import ThemeToggler from "../features/theme/ThemeToggler.jsx";
 
 const navigation = [
-    { name: 'Home', to: '/', current: true },
-    { name: 'Team', to: '#', current: false },
+    { name: 'Home', to: '/', current: false },
     { name: 'Collections', to: '/collections/collection', current: false },
 ]
 
@@ -33,7 +33,7 @@ export default function Header() {
     }, []);
 
     return (
-        <Disclosure as="nav" className=" bg-background/70 z-20 w-full sticky top-0 inset-x-0 border-b border-divider backdrop-blur-lg backdrop-saturate-150">
+        <Disclosure as="nav" className="bg-background/70 z-20 w-full sticky top-0 inset-x-0 border-b dark:border-gray-900 border-divider backdrop-blur-lg backdrop-saturate-150">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -60,19 +60,21 @@ export default function Header() {
                                                 key={item.name}
                                                 to={item.to}
                                                 className={classNames(
-                                                    item.current ? 'bg-indigo-900 text-white rounded-2xl' : ' customBtn headerLinks text-gray-800',
-                                                    'rounded-md px-3 py-2 text-sm font-medium'
+                                                    ' customBtn headerLinks text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700',
+                                                    'rounded-3xl px-3 py-2 text-sm font-medium dark:text-gray-300'
                                                 )}
-                                                aria-current={item.current ? 'page' : undefined}
+
                                             >
                                                 {item.name}
                                             </Link>
                                         ))}
+
                                     </div>
                                 </div>
                             </div>
 
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                <ThemeToggler/>
                                 {user ? (
                                     <Menu as="div" className="relative ml-3">
                                         <div>

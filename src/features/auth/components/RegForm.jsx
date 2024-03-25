@@ -93,7 +93,7 @@ export default function RegForm() {
                     <Button type="submit" color="primary" onClick={signUp}>
                         Submit
                     </Button>
-                    <p>Already have an account?<NavLink to="/login"> Log In</NavLink></p>
+                    <p>Already have an account?<NavLink className="dark:hover:text-cyan-500 dark:text-indigo-500" to="/login"> Log In</NavLink></p>
                 </CardBody>
             </Card>
         </div>

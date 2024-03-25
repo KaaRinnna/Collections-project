@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Table, TableHeader, TableColumn, TableBody,
     TableRow, TableCell, DropdownTrigger,
     Dropdown, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
-import {VerticalDotsIcon} from "./profile/VerticalDots.jsx";
-import {columns} from "../features/adminTable/adminData.js";
-import {db, auth} from "../config/firebase.js";
-import {getDocs, getDoc, collection, doc, updateDoc, deleteDoc} from "firebase/firestore";
+import {VerticalDotsIcon} from "../../components/profile/VerticalDots.jsx";
+import {columns} from "./adminData.js";
+import {db} from "../../config/firebase.js";
+import {getDocs, getDoc, collection, doc, updateDoc} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 
 const getUserList = async () => {
@@ -70,8 +70,6 @@ export default function AdminTable() {
         }
     }
 
-
-
     const renderCell = React.useCallback((user, columnKey) => {
         const cellValue = user[columnKey];
 
@@ -89,7 +87,7 @@ export default function AdminTable() {
                                     <VerticalDotsIcon className="text-default-300" />
                                 </Button>
                             </DropdownTrigger>
-                            <DropdownMenu>
+                            <DropdownMenu className="dark:text-gray-200">
                                 <DropdownItem onClick={() => viewUser(user.id)}>
                                     View
                                 </DropdownItem>
@@ -106,36 +104,9 @@ export default function AdminTable() {
         }
     }, []);
 
-    const deleteUser = function () {
-        const uid = '47tMMwxM01gaq7xk87599Kchftd2';
-
-        fetch('/deleteUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({uid})
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка удаления пользователя front');
-                }
-                return response.text();
-            })
-            .then(data => {
-                console.log(data);
-                alert('Пользователь успешно удален front');
-            })
-            .catch(error => {
-                console.error(error);
-                alert('Ошибка удаления пользователя front');
-            });
-    }
-
     return (
         <div className="max-w-[700px] mx-auto my-12">
-            <h2 className="pt-2 text-start">Users</h2>
-            <Button onClick={deleteUser}>Delete</Button>
+            <h1 className="pt-2 text-center dark:text-gray-200">Users</h1>
             <Table aria-label="Table with authenticated users" className="max-w-[700px] mx-auto my-10">
                 <TableHeader columns={columns}>
                     {(column) => (
@@ -148,7 +119,7 @@ export default function AdminTable() {
                 <TableBody items={userList}>
                     {(item) => (
                         <TableRow key={item.id}>
-                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                            {(columnKey) => <TableCell className="dark:text-gray-200">{renderCell(item, columnKey)}</TableCell>}
                         </TableRow>
                     )}
                 </TableBody>

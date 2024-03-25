@@ -26,14 +26,15 @@ export default function FieldSelect({register, unregister}) {
     }
 
     return (
-        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-1">
             <Autocomplete
                 label="Select a field type"
-                className="max-w-xs"
+                className="max-w-xs mb-2.5"
                 onSelectionChange={onSelectionChange}
+                variant="faded"
             >
                 {fieldTypes.map((field) => (
-                    <AutocompleteItem key={field.value} value={field.value} >
+                    <AutocompleteItem className="dark:text-gray-200" key={field.value} value={field.value} >
                         {field.label}
                     </AutocompleteItem>
                 ))}
@@ -43,9 +44,9 @@ export default function FieldSelect({register, unregister}) {
                     <Input
                         key={index}
                         label="Field name"
-                        variant="faded"
+                        variant="flat"
                         placeholder="Enter field`s name"
-                        className="my-1.5"
+                        className="mb-2.5"
                         {...register("custom_"+`${selectedKey}${index+1}_name`)}
                     />
             ))}

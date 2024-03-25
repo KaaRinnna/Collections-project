@@ -55,7 +55,7 @@ export default function LoginForm() {
                     <Button type="submit" color="primary" onClick={logIn}>
                         Log In
                     </Button>
-                    <p>Don`t have an account?<NavLink to="/signup"> Sign Up</NavLink></p>
+                    <p>Don`t have an account?<NavLink className="dark:text-cyan-600 dark:hover:text-indigo-500" to="/signup"> Sign Up</NavLink></p>
                 </CardBody>
             </Card>
         </div>

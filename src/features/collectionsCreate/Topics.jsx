@@ -39,7 +39,7 @@ const Topics = React.forwardRef(({ onSelectionChange }, ref) => {
                 items={items}
                 onSelectionChange={onSelectionChange}
             >
-                {(item) => <AutocompleteItem key={item.value} value={item.value}>{item.label}</AutocompleteItem>}
+                {(item) => <AutocompleteItem className="dark:text-gray-200" key={item.value} value={item.value}>{item.label}</AutocompleteItem>}
             </Autocomplete>
         </div>
     );
