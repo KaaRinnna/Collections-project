@@ -3,7 +3,7 @@ import PersonalTable from "../components/personalCollection/PersonalCollectionTa
 import React from "react";
 import Footer from "../components/Footer.jsx";
 
-export default function CollectionPage() {
+export default function PersonalCollectionPage() {
     return (
         <>
             <Header/>

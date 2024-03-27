@@ -13,9 +13,10 @@ import AdminPage from "./pages/AdminPage.jsx";
 import CollectionCreationPage from "./pages/CollectionCreationPage.jsx";
 import PrivateRoute from "./utils/WithPrivateRoute.jsx";
 import LoginRoute from "./utils/OnlyLoginRoute.jsx";
-import CollectionPage from "./pages/CollectionPage.jsx";
+import PersonalCollectionPage from "./pages/PersonalCollectionPage.jsx";
 import ItemCreationPage from "./pages/ItemCreationPage.jsx";
 import ItemPage from "./pages/ItemPage.jsx";
+import CollectionsPage from "./pages/CollectionsPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute><AdminPage/></PrivateRoute>,
     },
     {
+        path: '/collections',
+        element: <CollectionsPage/>,
+    },
+    {
         path: '/collections/create-collection',
         element: <LoginRoute><CollectionCreationPage/></LoginRoute>,
     },
@@ -49,7 +54,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/collections/collection/:id',
-        element: <CollectionPage/>,
+        element: <PersonalCollectionPage/>,
     },
     {
         path: '/collections/collection/:id/item/:itemId',

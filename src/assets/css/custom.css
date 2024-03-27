@@ -16,6 +16,10 @@ h1 {
     font-size: 3rem;
 }
 
+h3 {
+    margin-bottom: 0;
+}
+
 p {
     font-size: large;
 }
@@ -28,4 +32,28 @@ p {
 /*table*/
 thead th {
     border-bottom: 1px solid #dedede;
+}
+
+.searchbox {
+    margin: auto 3rem auto;
+    width: 40%;
+}
+
+.poweredby {
+    justify-content: right;
+    margin: auto;
+    width: 40%;
+}
+
+.ais-SearchBox-input {
+    width: 150px;
+    color: white;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+}
+
+@media (max-width: 384px) {
+    .ais-SearchBox-input {
+        max-width: 100px;
+    }
 }

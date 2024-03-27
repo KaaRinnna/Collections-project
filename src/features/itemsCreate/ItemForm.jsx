@@ -2,9 +2,9 @@ import React, {useEffect} from "react";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {Button, Card, CardHeader, Checkbox, Input} from "@nextui-org/react";
+import {Button, Card, CardHeader, Input} from "@nextui-org/react";
 import SelectColl from "./SelectColl.jsx";
-import {addDoc, collection, doc, onSnapshot} from "firebase/firestore";
+import {addDoc, collection, doc, onSnapshot, serverTimestamp} from "firebase/firestore";
 import {db} from "../../config/firebase.js";
 import {useNavigate} from "react-router-dom";
 
@@ -34,7 +34,7 @@ export default function ItemForm() {
 
     async function onItemSubmit(data) {
         const newData = {
-            ...data, collection: selectedKey,
+            ...data, collection: selectedKey, createdAt: serverTimestamp(),
         }
         const subCollectionRef = collection(db, `collections/${selectedKey}/items`);
         try {
@@ -89,6 +89,7 @@ export default function ItemForm() {
                                 return (
                                     <div key={key}>
                                         <Input
+                                            isRequired={typeKey !== "checkbox"}
                                             type={typeKey}
                                             label={docFields[key]}
                                             className="my-1.5"

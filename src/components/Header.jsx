@@ -4,15 +4,44 @@ import {auth} from "../config/firebase.js";
 import UserAvatar from "./profile/UserAvatar.jsx";
 import LogoutBtn from "../features/auth/components/LogOutBtn.jsx";
 
+import algoliasearch from "algoliasearch";
+import {InstantSearch, Hits, Highlight, connectSearchBox} from "react-instantsearch-dom";
+
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Button} from "@nextui-org/react";
 import ThemeToggler from "../features/theme/ThemeToggler.jsx";
 
+const searchClient = algoliasearch(
+    import.meta.env.VITE_ALGOLIA_APP_ID,
+    import.meta.env.VITE_ALGOLIA_SEARCH_API_KEY,
+)
+
+function Hit ({hit}) {
+    return (
+        <div className="text-gray-200">
+            <p><Link className="text-gray-200" to={`/collections/collection/${hit.objectID}`}>Collection: <Highlight hit={hit} attribute="collectionName"/></Link> </p>
+            <p>description: {hit.description}</p>
+        </div>
+    );
+}
+
+const CustomSearchBox = connectSearchBox(({ currentRefinement, refine }) => {
+    return (
+        <input
+            type="search"
+            className="ais-SearchBox-input"
+            placeholder="Search..."
+            value={currentRefinement}
+            onChange={event => refine(event.currentTarget.value)}
+        />
+    );
+});
+
 const navigation = [
     { name: 'Home', to: '/', current: false },
-    { name: 'Collections', to: '/collections/collection', current: false },
+    { name: 'Collections', to: '/collections', current: false },
 ]
 
 function classNames(...classes) {
@@ -23,6 +52,8 @@ export default function Header() {
     const btnRef = useRef();
     const [user, setUser] = useState(null);
 
+    const [searchItem, setSearchItem] = useState('');
+    const searchInputRef = useRef();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -74,9 +105,15 @@ export default function Header() {
                             </div>
 
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                <InstantSearch searchClient={searchClient} indexName="collections" onSearchStateChange={({query}) => setSearchItem(query)}>
+
+                                    <CustomSearchBox/>
+                                    {searchItem && <Hits hitComponent={Hit} className="absolute top-[80%] z-30 bg-gray-700 rounded-2xl py-2 px-4"/>}
+
+                                </InstantSearch>
                                 <ThemeToggler/>
                                 {user ? (
-                                    <Menu as="div" className="relative ml-3">
+                                    <Menu as="div" className="relative">
                                         <div>
                                             <Menu.Button className="relative flex rounded-full text-sm focus:outline-none focus:ring-offset-2 focus:ring-offset-gray-800">
                                                 <UserAvatar/>

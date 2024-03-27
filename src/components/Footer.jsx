@@ -13,16 +13,15 @@ export default function Footer() {
                     </Link>
                     <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-200">
                         <li>
-                            <Link to="/" className="hover:underline me-4 md:me-6 dark:text-gray-300">About</Link>
+                            <Link to="/" className=" me-4 md:me-6 dark:text-gray-300">Home</Link>
                         </li>
-                        <li>
-                            <Link to="/" className="hover:underline me-4 md:me-6 dark:text-gray-300">Privacy Policy</Link>
-                        </li>
+
                     </ul>
                 </div>
                 <hr className="my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"/>
                 <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024
-                    <Link to="/" className="hover:underline dark:text-gray-400"> CollectionArk</Link>. All Rights Reserved.</span>
+                    <Link to="/" className=" dark:text-gray-400"> CollectionArk</Link>
+                </span>
             </div>
         </footer>
     )

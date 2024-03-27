@@ -35,7 +35,7 @@ export default function PersonalTable() {
                 const itemsData = items.docs.map((doc) => ({
                     ...doc.data(), id: doc.id,
                 }));
-                setTableList(collectionData)
+                setTableList(collectionData);
                 setItemList(itemsData);
 
                 const getColumns = () => {
@@ -85,7 +85,7 @@ export default function PersonalTable() {
         loading ? <div className="absolute top-[50%] left-[50%] transform"><Spinner label="Loading..." /></div> :
             <div className="max-w-[1200px] mx-auto mt-12 mb-24">
                 <h1 className="text-center dark:text-gray-200">{tableList.collectionName} collection page</h1>
-                <Table className="max-w-[1200px] mx-auto my-10 dark:text-gray-200" selectionMode="multiple" selectedKeys={selectedKeys} onSelectionChange={setSelectedKeys}>
+                <Table className="max-w-[1200px] mx-auto my-10 dark:text-gray-200">
                     <TableHeader columns={columns}>
                         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
                     </TableHeader>
