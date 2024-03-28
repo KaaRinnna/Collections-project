@@ -4,5 +4,4 @@ export const fieldTypes = [
     {label: "Text", value: "text"},
     {label: "Checkbox", value: "checkbox"},
     {label: "Date", value: "date"},
-
 ];

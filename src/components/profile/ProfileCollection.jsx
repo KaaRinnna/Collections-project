@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button} from "@nextui-org/react";
 import {columns} from "./data.js";
-import {VerticalDotsIcon} from "./VerticalDots.jsx";
 import {PlusIcon} from "./PlusIcon.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {collection, getDocs, query, where} from "firebase/firestore";
@@ -41,10 +40,6 @@ export default function ProfileTable() {
         fetchDocsList();
     }, [uid]);
 
-    const handleEdit = async (id) => {
-        navigate(`/collections/edit-collection/${id}`);
-    }
-
     const onHandleAdd = () => {
         navigate("/collections/create-collection");
     }
@@ -68,21 +63,6 @@ export default function ProfileTable() {
                 return (
                     <div className="text-medium text-default-500">
                         {cellValue}
-                    </div>
-                );
-            case "actions":
-                return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button isIconOnly size="sm" variant="light">
-                                    <VerticalDotsIcon className="text-default-300" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem onClick={() => handleEdit(item.id)}>Edit</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
                     </div>
                 );
             default:

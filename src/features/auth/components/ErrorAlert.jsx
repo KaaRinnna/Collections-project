@@ -2,7 +2,6 @@ import React from "react";
 
 const Alert = ({error}) => {
     const getErrorMessage = (errorMessage) => {
-        // Обрабатывайте текст ошибки и возвращайте понятные сообщения
         if (errorMessage.includes("invalid-email")) {
             return "Invalid email address.";
         } else if (errorMessage.includes("user-not-found")) {

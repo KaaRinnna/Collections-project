@@ -64,10 +64,7 @@ export default function AllCollections() {
             setLoading(false);
 
         }
-
         getDocList();
-
-
     }, []);
 
     const renderCell = React.useCallback((item, columnKey) => {

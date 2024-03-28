@@ -12,6 +12,10 @@ import {useNavigate} from "react-router-dom";
 
 export default function CollectionCreation() {
     const navigate = useNavigate();
+    const [selectedKey, setSelectedKey] = React.useState(null);
+    const [fieldSelect, setFieldSelect] = React.useState([
+        <FieldSelect key={0} register={register} unregister={unregister}/>
+    ])
 
     const schema = yup.object().shape({
         collectionName: yup.string().required().min(2),
@@ -23,19 +27,13 @@ export default function CollectionCreation() {
         resolver: yupResolver(schema),
     })
 
-    const [selectedKey, setSelectedKey] = React.useState(null);
-    const [fieldSelect, setFieldSelect] = React.useState([
-        <FieldSelect key={0} register={register} unregister={unregister}/>])
-
     function onSelectionChange(id) {
         setSelectedKey(id);
     }
 
     async function onFormSubmit(data) {
         const newData = {
-            ...data,
-            topic: selectedKey,
-            user_id: auth.currentUser.uid,
+            ...data, topic: selectedKey, user_id: auth.currentUser.uid,
         };
         Object.keys(newData).forEach(key => {
             if (key.startsWith('custom') && key.endsWith('_name')) {
@@ -96,11 +94,10 @@ export default function CollectionCreation() {
                         <Button onClick={addFieldSelect} endContent={<PlusIcon />} className="justify-end my-2">
                             Add New
                         </Button>
-
                     </div>
 
                     <div>
-                    <Button className="my-1.5" type="submit" color="primary">Submit</Button>
+                        <Button className="my-1.5" type="submit" color="primary">Submit</Button>
                     </div>
                 </form>
             </Card>

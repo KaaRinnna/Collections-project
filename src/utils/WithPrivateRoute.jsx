@@ -13,14 +13,9 @@ const PrivateRoute = ({ children }) => {
         const checkUser = async () => {
             const userRef = doc(db, 'users', auth.currentUser.uid);
             const userDoc = await getDoc(userRef);
-
             if (userDoc.exists()) {
                 const userRole = userDoc.data().role;
-                if (auth.currentUser.uid === uid || userRole === 'admin') {
-                    setIsAuthorized(true);
-                } else {
-                    navigate("/");
-                }
+                auth.currentUser.uid === uid || userRole === 'admin' ? setIsAuthorized(true) : navigate("/");
             } else {
                 navigate("/login");
             }
@@ -35,12 +30,11 @@ const PrivateRoute = ({ children }) => {
                 setLoading(false);
             }
         });
-
         return () => unsubscribe();
     }, [navigate, uid]);
 
     if (loading) {
-        return null; // сделать компонент загрузки
+        return null;
     }
     return isAuthorized ? children : null;
 };

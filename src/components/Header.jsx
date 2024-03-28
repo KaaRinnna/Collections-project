@@ -1,17 +1,16 @@
 import React, {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
-import {auth} from "../config/firebase.js";
+import {auth, db} from "../config/firebase.js";
 import UserAvatar from "./profile/UserAvatar.jsx";
 import LogoutBtn from "../features/auth/components/LogOutBtn.jsx";
-
 import algoliasearch from "algoliasearch";
 import {InstantSearch, Hits, Highlight, connectSearchBox} from "react-instantsearch-dom";
-
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Button} from "@nextui-org/react";
 import ThemeToggler from "../features/theme/ThemeToggler.jsx";
+import {doc, getDoc} from "firebase/firestore";
 
 const searchClient = algoliasearch(
     import.meta.env.VITE_ALGOLIA_APP_ID,
@@ -21,7 +20,7 @@ const searchClient = algoliasearch(
 function Hit ({hit}) {
     return (
         <div className="text-gray-200">
-            <p><Link className="text-gray-200" to={`/collections/collection/${hit.objectID}`}>Collection: <Highlight hit={hit} attribute="collectionName"/></Link> </p>
+            <p><a className="text-gray-200" href={`/collections/collection/${hit.objectID}`}>Collection: <Highlight hit={hit} attribute="collectionName"/></a> </p>
             <p>description: {hit.description}</p>
         </div>
     );
@@ -51,17 +50,36 @@ function classNames(...classes) {
 export default function Header() {
     const btnRef = useRef();
     const [user, setUser] = useState(null);
-
     const [searchItem, setSearchItem] = useState('');
-    const searchInputRef = useRef();
+    const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUser(user);
         });
-
         return () => unsubscribe();
     }, []);
+
+    const getRole = async (userId) => {
+        const usersRef = doc(db, 'users', userId);
+        const getUsersDoc = await getDoc(usersRef);
+        if (getUsersDoc.exists()) {
+            return getUsersDoc.data().role;
+        }
+    }
+
+    useEffect(() => {
+        async function fetchUserRole() {
+            if (user) {
+                const role = await getRole(user.uid);
+                setUserRole(role);
+            }
+
+        }
+        fetchUserRole();
+    }, [user]);
+
+
 
     return (
         <Disclosure as="nav" className="bg-background/70 z-20 w-full sticky top-0 inset-x-0 border-b dark:border-gray-900 border-divider backdrop-blur-lg backdrop-saturate-150">
@@ -128,41 +146,42 @@ export default function Header() {
                                             leaveFrom="transform opacity-100 scale-100"
                                             leaveTo="transform opacity-0 scale-95"
                                         >
-                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-slate-500 dark:bg-gray-900 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                 <Menu.Item className="mb-2">
                                                     {({ active }) => (
                                                         <Link
                                                             to={`/profile/${user.uid}`}
-                                                            className={classNames(active ? 'bg-gray-100' : '', 'hover:no-underline hover:text-gray-700 block px-4 py-2 text-sm text-center text-gray-700')}
+                                                            className={classNames(active ? 'bg-gray-600 customBtn' : '', 'hover:no-underline hover:text-cyan-500 text-gray-200 block px-4 py-2 text-sm text-center')}
                                                         >
                                                             Your Profile
                                                         </Link>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
-                                                    {({active}) => (
-                                                        <Link to="/admin">
+                                                    {userRole === 'admin' ? (
+                                                        <Link to="/admin" className='hover:no-underline hover:bg-gray-600 mb-1 customBtn hover:text-cyan-500 text-gray-200 block px-4 py-2 text-sm text-center'>
                                                             Admin
                                                         </Link>
+                                                    ) : (
+                                                        <div></div>
                                                     )}
+
                                                 </Menu.Item>
                                                 <Menu.Item>
-                                                    {({ active }) => (
                                                         <LogoutBtn ref={btnRef} />
-                                                    )}
                                                 </Menu.Item>
                                             </Menu.Items>
                                         </Transition>
                                     </Menu>
                                 ) : (
-                                    <>
+                                    <div className="max-sm:hidden">
                                         <Button as={Link} to="/login" variant="flat" className="relative rounded-full bg-gray-800 p-1 mr-2 hover:no-underline hover:bg-gray-700 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             Log In
                                         </Button>
                                         <Button as={Link} to="/signup" variant="flat" className="relative rounded-full bg-gray-300 p-1 hover:no-underline text-gray-800 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             Sign Up
                                         </Button>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -170,6 +189,12 @@ export default function Header() {
 
                     <Disclosure.Panel className="sm:hidden">
                         <div className="space-y-1 px-2 pb-3 pt-2">
+                            <Button as={Link} to="/login" variant="flat" className="relative rounded-full bg-gray-800 p-1 mr-2 hover:no-underline hover:bg-gray-700 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                Log In
+                            </Button>
+                            <Button as={Link} to="/signup" variant="flat" className="relative rounded-full bg-gray-300 p-1 hover:no-underline text-gray-800 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                Sign Up
+                            </Button>
                             {navigation.map((item) => (
                                 <Disclosure.Button
                                     key={item.name}
@@ -183,6 +208,7 @@ export default function Header() {
                                 >
                                     {item.name}
                                 </Disclosure.Button>
+
                             ))}
                         </div>
                     </Disclosure.Panel>

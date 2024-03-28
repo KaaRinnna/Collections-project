@@ -8,8 +8,8 @@ import {db} from "../../config/firebase.js";
 import {getDocs, getDoc, collection, doc, updateDoc} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 
+const usersRef = collection(db, "users");
 const getUserList = async () => {
-    const usersRef = collection(db, "users");
     try {
         const data = await getDocs(usersRef);
         const usersData = [];
@@ -59,7 +59,6 @@ export default function AdminTable() {
         try {
             const userRef = doc(db, 'users', userId);
             const userDoc = await getDoc(userRef);
-
             if (userDoc.exists()) {
                 const newRole = userDoc.data().role === 'admin' ? 'user' : 'admin';
                 await updateDoc(userRef, { role: newRole });
@@ -72,7 +71,6 @@ export default function AdminTable() {
 
     const renderCell = React.useCallback((user, columnKey) => {
         const cellValue = user[columnKey];
-
         switch (columnKey) {
             case "name":
                 return (

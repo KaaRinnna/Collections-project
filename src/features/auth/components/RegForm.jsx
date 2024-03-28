@@ -10,13 +10,13 @@ import {doc, setDoc} from "firebase/firestore";
 
 export default function RegForm() {
     const [isVisible, setIsVisible] = React.useState(false);
-    const toggleVisibility = () => setIsVisible(!isVisible);
-
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const signUp = async (e) => {
         e.preventDefault();
@@ -32,22 +32,16 @@ export default function RegForm() {
             setError(errorMessage);
             console.log(errorMessage);
         }
-
         const user = auth.currentUser;
         const newUser = {
-            name,
-            email,
-            uid: user.uid,
-            role: 'user',
+            name, email, uid: user.uid, role: 'user',
         };
-
         try {
             const userDocRef = doc(db, 'users', user.uid);
             await setDoc(userDocRef, newUser)
         } catch (error){
             console.log(error)
         }
-
     }
 
     return (
@@ -97,6 +91,5 @@ export default function RegForm() {
                 </CardBody>
             </Card>
         </div>
-
     );
 }

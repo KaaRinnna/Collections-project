@@ -16,7 +16,7 @@ const LogoutBtn = forwardRef((props, ref) => {
 
     return (
         <>
-            <Button ref={ref} className="block w-[82px] mx-auto bg-slate-400 text-white" onClick={handleLogout}>
+            <Button ref={ref} className="block w-[82px] mx-auto bg-slate-600 text-white" onClick={handleLogout}>
                 Log Out
             </Button>
         </>

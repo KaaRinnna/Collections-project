@@ -7,15 +7,14 @@ import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../../config/firebase.js";
 import Alert from "./ErrorAlert.jsx";
 
-
 export default function LoginForm() {
     const [isVisible, setIsVisible] = React.useState(false);
-    const toggleVisibility = () => setIsVisible(!isVisible);
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
+
+    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const logIn = (e) => {
         e.preventDefault();
@@ -55,7 +54,7 @@ export default function LoginForm() {
                     <Button type="submit" color="primary" onClick={logIn}>
                         Log In
                     </Button>
-                    <p>Don`t have an account?<NavLink className="dark:text-cyan-600 dark:hover:text-indigo-500" to="/signup"> Sign Up</NavLink></p>
+                    <p>Don`t have an account?<NavLink className="text-cyan-500 dark:text-cyan-600 dark:hover:text-indigo-500" to="/signup"> Sign Up</NavLink></p>
                 </CardBody>
             </Card>
         </div>

@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 const LoginRoute = ({children}) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (!user) {
@@ -12,14 +13,12 @@ const LoginRoute = ({children}) => {
             }
             setLoading(false);
         });
-
         return () => unsubscribe();
     }, [navigate]);
 
     if (loading) {
         return null;
     }
-
     return children;
 }
 

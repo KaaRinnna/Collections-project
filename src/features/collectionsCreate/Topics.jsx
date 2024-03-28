@@ -6,7 +6,6 @@ import {db} from "../../config/firebase.js";
 const Topics = React.forwardRef(({ onSelectionChange }, ref) => {
     const [items, setItems] = useState([]);
     const topicsRef = collection(db, "topics");
-    const [selectedKey, setSelectedKey] = useState(null);
 
     useEffect(() => {
         const fetchTopics = async () => {
@@ -22,11 +21,6 @@ const Topics = React.forwardRef(({ onSelectionChange }, ref) => {
         }
         fetchTopics();
     }, []);
-
-    const onSelectionChangeLocal = (id) => {
-        setSelectedKey(id);
-        onSelectionChange(id);
-    }
 
     return (
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">

@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Autocomplete, AutocompleteItem, Input} from "@nextui-org/react";
 import {fieldTypes} from "./fieldTypes.js";
+
 export default function FieldSelect({register, unregister}) {
     const [selectedKey, setSelectedKey] = useState(null);
     const prevKeyRef = useRef();
@@ -15,6 +16,7 @@ export default function FieldSelect({register, unregister}) {
         }
         prevKeyRef.current = selectedKey;
     }, [selectedKey, unregister])
+
     const onSelectionChange = (id) => {
         setSelectedKey(id);
         if (fields[id].length < 3) {
