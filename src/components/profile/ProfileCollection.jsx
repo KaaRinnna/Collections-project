@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button} from "@nextui-org/react";
+import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, DropdownTrigger, Dropdown, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import {columns} from "./data.js";
+import {VerticalDotsIcon} from "./VerticalDots.jsx";
 import {PlusIcon} from "./PlusIcon.jsx";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {collection, getDocs, query, where} from "firebase/firestore";
 import {db} from "../../config/firebase.js";
+import {Text} from "../../main.jsx";
 
 export default function ProfileTable() {
     const [docsList, setDocsList] = useState([]);
@@ -40,6 +42,10 @@ export default function ProfileTable() {
         fetchDocsList();
     }, [uid]);
 
+    const handleEdit = async (id) => {
+        navigate(`/collections/edit-collection/${id}`);
+    }
+
     const onHandleAdd = () => {
         navigate("/collections/create-collection");
     }
@@ -65,14 +71,29 @@ export default function ProfileTable() {
                         {cellValue}
                     </div>
                 );
+            case "actions":
+                return (
+                    <div className="relative flex justify-end items-center gap-2">
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button isIconOnly size="sm" variant="light">
+                                    <VerticalDotsIcon className="text-default-300" />
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu>
+                                <DropdownItem onClick={() => handleEdit(item.id)}>Edit</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+                );
             default:
                 return cellValue;
         }
     }, []);
 
     return (
-        <div className="max-w-[700px] mx-auto mt-6 mb-24">
-            <h1 className="pt-4 text-center dark:text-gray-200">My collections</h1>
+        <div className="max-w-[700px] mx-auto mt-6 pb-12">
+            <h1 className="pt-4 text-center dark:text-gray-200"><Text tid="my colls"/></h1>
             <Table className="max-w-[700px] mx-auto my-10">
                 <TableHeader columns={columns}>
                     {(column) => (
@@ -84,7 +105,7 @@ export default function ProfileTable() {
                 </TableHeader>
                 <TableBody items={docsList} emptyContent={"No collection to display."}>
                     {(item) => (
-                        <TableRow key={item.id} >
+                        <TableRow key={item.id}>
                             {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
                         </TableRow>
                     )}
@@ -92,12 +113,12 @@ export default function ProfileTable() {
             </Table>
             <Button
                 onClick={onHandleAdd}
-                className="text-gray-200"
-                endContent={<PlusIcon />}
+                className="text-gray-100"
+                endContent={<PlusIcon/>}
                 size="md"
                 color="primary"
             >
-                Add new collection
+                <Text tid="add new coll"/>
             </Button>
         </div>
     );

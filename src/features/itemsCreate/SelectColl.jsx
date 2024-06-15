@@ -5,19 +5,17 @@ import {db, auth} from "../../config/firebase.js";
 
 const SelectColl = React.forwardRef(({onSelectionChange}, ref) => {
     const [items, setItems] = React.useState([]);
+    const collRef = collection(db, 'collections');
     const [role, setRole] = React.useState(null);
-
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    const collectionRef = collection(db, 'collections');
 
     useEffect(() => {
         const fetchColl = async () => {
             try {
-                const coll = await getDocs(collectionRef);
-                const collectionData = coll.docs.map((doc) => ({
+                const coll = await getDocs(collRef);
+                const collData = coll.docs.map((doc) => ({
                     ...doc.data(), id: doc.id,
                 }));
-                setItems(collectionData);
+                setItems(collData);
             } catch (err) {
                 console.log(err);
             }
@@ -27,6 +25,7 @@ const SelectColl = React.forwardRef(({onSelectionChange}, ref) => {
 
     useEffect(() => {
         const checkRole = async () => {
+            const userRef = doc(db, 'users', auth.currentUser.uid);
             const userDoc = await getDoc(userRef);
             if (userDoc.exists()) {
                 const userRole = userDoc.data().role;
@@ -41,7 +40,7 @@ const SelectColl = React.forwardRef(({onSelectionChange}, ref) => {
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
             <Autocomplete
                 isRequired
-                label="Select a collection"
+                label="Выберите коллекцию"
                 className="max-w-xs my-1.5"
                 variant="faded"
                 onSelectionChange={onSelectionChange}

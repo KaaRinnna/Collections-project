@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import ReactDOM from 'react-dom/client';
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
@@ -17,6 +17,9 @@ import PersonalCollectionPage from "./pages/PersonalCollectionPage.jsx";
 import ItemCreationPage from "./pages/ItemCreationPage.jsx";
 import ItemPage from "./pages/ItemPage.jsx";
 import CollectionsPage from "./pages/CollectionsPage.jsx";
+import {LanguageContext, LanguageProvider} from "./containers/Language.jsx";
+import CourseChoosing from "./pages/CourseChoosing.jsx";
+import CoursePage from "./pages/Course.jsx";
 
 const router = createBrowserRouter([
     {
@@ -60,10 +63,25 @@ const router = createBrowserRouter([
         path: '/collections/collection/:id/item/:itemId',
         element: <ItemPage/>,
     },
+    {
+        path: '/choosecourse',
+        element: <LoginRoute><CourseChoosing/></LoginRoute>
+    },
+    {
+        path: '/courses',
+        element: <CoursePage/>
+    }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+      <LanguageProvider>
+          <RouterProvider router={router}/>
+      </LanguageProvider>
   </React.StrictMode>,
 )
+
+export function Text({ tid }) {
+    const languageContext = useContext(LanguageContext);
+    return languageContext.dictionary[tid] || tid;
+}

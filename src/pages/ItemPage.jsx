@@ -7,7 +7,7 @@ export default function ItemPage() {
     return (
         <>
             <Header/>
-            <div className="container content">
+            <div className="container content peaks">
                 <ItemTable/>
             </div>
             <Footer/>

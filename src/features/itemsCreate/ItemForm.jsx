@@ -63,10 +63,10 @@ export default function ItemForm() {
     }
 
     return (
-        <div className="max-w-[640px] w-full mx-auto my-12">
+        <div className="max-w-[640px] w-full mx-auto my-24">
             <Card className="min-w-0">
                 <CardHeader>
-                    <h2 className="text-center">Create an item for your collection</h2>
+                    <h1 className="text-center text-[40px]">Создайте предмет для вашей коллекции</h1>
                 </CardHeader>
                 <form
                     className="text-left p-3 h-auto subpixel-antialiased break-words overflow-y-auto flex-col flex-auto w-full flex relative"
@@ -75,8 +75,8 @@ export default function ItemForm() {
                     <Input
                         isRequired
                         className="my-1.5"
-                        label="ItemName"
-                        placeholder="Enter your item`s name"
+                        label="Название предмета"
+                        placeholder="Введите название вашего предмета"
                         {...register("item_name")}
                         errorMessage={errors.item_name?.message}
                     />
@@ -103,9 +103,11 @@ export default function ItemForm() {
                         }
                     })}
                     <div>
-                        <Button type="submit" color="primary">Submit</Button>
+                        <Button type="submit" className="my-1.5 text-medium" color="primary">Создать</Button>
                     </div>
+
                 </form>
+
             </Card>
         </div>
     )

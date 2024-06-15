@@ -6,15 +6,17 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../../config/firebase.js";
 import Alert from "./ErrorAlert.jsx";
+import {Text} from "../../../main.jsx";
+
 
 export default function LoginForm() {
     const [isVisible, setIsVisible] = React.useState(false);
+    const toggleVisibility = () => setIsVisible(!isVisible);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
-
-    const toggleVisibility = () => setIsVisible(!isVisible);
 
     const logIn = (e) => {
         e.preventDefault();
@@ -33,12 +35,12 @@ export default function LoginForm() {
         <div className="max-w-[400px] w-full">
             <Card className="min-w-0">
                 <CardHeader>
-                    <h2 className='text-center'>Log In</h2>
+                    <h2 className='text-center'><Text tid="log in"/></h2>
                 </CardHeader>
                 {error && <Alert error={error}></Alert>}
                 <CardBody className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                    <Input isRequired type="email" label="Email" size="md" variant="bordered" onChange={(e) => setEmail(e.target.value)}/>
-                    <Input isRequired label="Password" variant="bordered" onChange={(e) => setPassword(e.target.value)}
+                    <Input isRequired type="email" label={<Text tid="email"/>} size="md" variant="bordered" onChange={(e) => setEmail(e.target.value)}/>
+                    <Input isRequired label={<Text tid="password"/>} variant="bordered" onChange={(e) => setPassword(e.target.value)}
                            endContent={
                                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                                    {isVisible ? (
@@ -52,9 +54,9 @@ export default function LoginForm() {
                            className="max-w-md"
                     />
                     <Button type="submit" color="primary" onClick={logIn}>
-                        Log In
+                        <Text tid="log in"/>
                     </Button>
-                    <p>Don`t have an account?<NavLink className="text-cyan-500 dark:text-cyan-600 dark:hover:text-indigo-500" to="/signup"> Sign Up</NavLink></p>
+                    <p><Text tid="dont have acc"/><NavLink className="dark:hover:text-cyan-500 dark:text-indigo-500 text-violet-500" to="/signup"> <Text tid="to sign up"/></NavLink></p>
                 </CardBody>
             </Card>
         </div>

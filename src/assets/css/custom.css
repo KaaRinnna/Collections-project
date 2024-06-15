@@ -22,12 +22,33 @@ h3 {
 
 p {
     font-size: large;
+    margin: 0;
+}
+
+hr {
+    margin: 0;
 }
 
 .customBtn {
     transition-timing-function: ease;
     transition-duration: 250ms;
 }
+
+.peaks {
+    background-image: url("../top-new.png");
+    background-size: cover;
+}
+
+.profile-peaks {
+    background-image: url("../profile-top.png");
+    background-size: cover;
+}
+
+.last-peaks {
+    background-image: url("../last-created.png");
+    background-size: cover;
+}
+
 
 /*table*/
 thead th {

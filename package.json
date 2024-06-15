@@ -13,10 +13,10 @@
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
     "@hookform/resolvers": "^3.3.4",
-    "@nextui-org/react": "^2.2.9",
+    "@nextui-org/react": "^2.3.6",
     "algoliasearch": "^4.23.1",
     "firebase": "^10.8.1",
-    "framer-motion": "^11.0.8",
+    "framer-motion": "^11.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-firebase-hooks": "^5.1.1",
@@ -24,6 +24,7 @@
     "react-instantsearch-dom": "^6.40.4",
     "react-instantsearch-hooks-web": "^6.47.3",
     "react-router-dom": "^6.22.2",
+    "react-type-animation": "^3.2.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {

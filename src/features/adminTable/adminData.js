@@ -1,8 +1,8 @@
 const columns = [
-    {name: "NAME", uid: "name"},
+    {name: "Имя", uid: "name"},
     {name: "EMAIL", uid: "email"},
-    {name: "ROLE", uid: "role"},
-    {name: "ACTIONS", uid: "actions"},
+    {name: "Роль", uid: "role"},
+    {name: "Действия", uid: "actions"},
 ]
 
 export {columns};

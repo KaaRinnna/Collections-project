@@ -3,7 +3,7 @@
 @tailwind utilities;
 @layer base {
   body {
-    @apply bg-white dark:bg-gray-900
+    @apply bg-neutral-100 dark:bg-slate-950
   }
 }
 

@@ -83,8 +83,8 @@ export default function PersonalTable() {
 
     return (
         loading ? <div className="absolute top-[50%] left-[50%] transform"><Spinner label="Loading..." /></div> :
-            <div className="max-w-[1200px] mx-auto mt-12 mb-24">
-                <h1 className="text-center dark:text-gray-200">{tableList.collectionName} collection page</h1>
+            <div className="max-w-[1200px] mx-auto my-24">
+                <h1 className="text-center dark:text-gray-200">{tableList.collectionName}</h1>
                 <Table className="max-w-[1200px] mx-auto my-10 dark:text-gray-200">
                     <TableHeader columns={columns}>
                         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
@@ -101,10 +101,10 @@ export default function PersonalTable() {
                     onClick={onHandleAdd}
                     className="text-background dark:text-gray-200"
                     endContent={<PlusIcon />}
-                    size="md"
+                    size="lg"
                     color="primary"
                 >
-                    Add new item
+                    Добавить новый предмет
                 </Button>
             </div>
 

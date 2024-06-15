@@ -7,7 +7,7 @@ export default function ItemCreationPage() {
     return (
         <div>
             <Header/>
-            <div className="container content">
+            <div className="container content peaks">
                 <ItemForm/>
             </div>
             <Footer/>

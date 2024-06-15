@@ -4,6 +4,7 @@ import {doc, getDoc} from "firebase/firestore";
 import {db} from "../config/firebase.js";
 import React, {useEffect, useState} from "react";
 import {date} from "yup";
+import {Text} from "../main.jsx";
 
 export default function ItemTable() {
     const {id, itemId} = useParams();
@@ -48,10 +49,10 @@ export default function ItemTable() {
     return (
         loading ? <div className="absolute top-[50%] left-[50%] transform"><Spinner label="Loading..."/></div> :
             <div
-                className="max-w-[1000px] mx-auto my-24 py-10 px-5 dark:bg-gray-900 rounded-large shadow-small dark:shadow-none">
+                className="max-w-[1000px] mx-auto my-24 py-5 px-5 dark:bg-gray-900 rounded-large shadow-small dark:shadow-none">
                 <div className="dark:text-gray-200 pb-4">
-                    <h1>{collectionDoc.collectionName} Item information</h1>
-                    <p>Details</p>
+                    <h1>{collectionDoc.collectionName}</h1>
+                    <p><Text tid="details"/></p>
                 </div>
                 <div>
                     <dl className="divide-y divide-gray-700 text-lg">

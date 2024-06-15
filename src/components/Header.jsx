@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 import {auth, db} from "../config/firebase.js";
 import UserAvatar from "./profile/UserAvatar.jsx";
 import LogoutBtn from "../features/auth/components/LogOutBtn.jsx";
+
 import algoliasearch from "algoliasearch";
 import {InstantSearch, Hits, Highlight, connectSearchBox} from "react-instantsearch-dom";
+
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import {Button} from "@nextui-org/react";
 import ThemeToggler from "../features/theme/ThemeToggler.jsx";
+import LanguageSelector from "./LanguageSelector.jsx";
+import {Text} from "../main.jsx";
 import {doc, getDoc} from "firebase/firestore";
 
 const searchClient = algoliasearch(
@@ -39,8 +43,9 @@ const CustomSearchBox = connectSearchBox(({ currentRefinement, refine }) => {
 });
 
 const navigation = [
-    { name: 'Home', to: '/', current: false },
-    { name: 'Collections', to: '/collections', current: false },
+    { name: <Text tid="header home"/>, to: '/'},
+    { name: <Text tid="header collections"/>, to: '/collections'},
+    { name: <Text tid="courses"/>, to: "/courses"}
 ]
 
 function classNames(...classes) {
@@ -50,6 +55,7 @@ function classNames(...classes) {
 export default function Header() {
     const btnRef = useRef();
     const [user, setUser] = useState(null);
+
     const [searchItem, setSearchItem] = useState('');
     const [userRole, setUserRole] = useState(null);
 
@@ -57,6 +63,7 @@ export default function Header() {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUser(user);
         });
+
         return () => unsubscribe();
     }, []);
 
@@ -87,7 +94,7 @@ export default function Header() {
                 <>
                     <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                         <div className="relative flex h-16 items-center justify-between">
-                            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                            <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
 
                                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                                     <span className="absolute -inset-0.5" />
@@ -102,7 +109,7 @@ export default function Header() {
                             </div>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex flex-shrink-0 items-center"/>
-                                <div className="hidden sm:ml-6 sm:block">
+                                <div className="hidden sm:ml-6 md:block">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
                                             <Link
@@ -117,6 +124,7 @@ export default function Header() {
                                                 {item.name}
                                             </Link>
                                         ))}
+                                        <LanguageSelector/>
 
                                     </div>
                                 </div>
@@ -127,7 +135,6 @@ export default function Header() {
 
                                     <CustomSearchBox/>
                                     {searchItem && <Hits hitComponent={Hit} className="absolute top-[80%] z-30 bg-gray-700 rounded-2xl py-2 px-4"/>}
-
                                 </InstantSearch>
                                 <ThemeToggler/>
                                 {user ? (
@@ -151,9 +158,9 @@ export default function Header() {
                                                     {({ active }) => (
                                                         <Link
                                                             to={`/profile/${user.uid}`}
-                                                            className={classNames(active ? 'bg-gray-600 customBtn' : '', 'hover:no-underline hover:text-cyan-500 text-gray-200 block px-4 py-2 text-sm text-center')}
+                                                            className={classNames(active ? 'bg-gray-600 customBtn' : '', 'hover:no-underline hover:text-cyan-500 text-gray-200 block px-4 py-2 text-medium text-center')}
                                                         >
-                                                            Your Profile
+                                                            <Text tid="profile"/>
                                                         </Link>
                                                     )}
                                                 </Menu.Item>
@@ -165,36 +172,31 @@ export default function Header() {
                                                     ) : (
                                                         <div></div>
                                                     )}
-
                                                 </Menu.Item>
                                                 <Menu.Item>
+                                                    {({ active }) => (
                                                         <LogoutBtn ref={btnRef} />
+                                                    )}
                                                 </Menu.Item>
                                             </Menu.Items>
                                         </Transition>
                                     </Menu>
                                 ) : (
-                                    <div className="max-sm:hidden">
-                                        <Button as={Link} to="/login" variant="flat" className="relative rounded-full bg-gray-800 p-1 mr-2 hover:no-underline hover:bg-gray-700 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                    <>
+                                        <Button as={Link} to="/login" variant="flat" className="relative rounded-full bg-gray-800 p-1 mx-2 hover:no-underline hover:bg-gray-700 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             Log In
                                         </Button>
                                         <Button as={Link} to="/signup" variant="flat" className="relative rounded-full bg-gray-300 p-1 hover:no-underline text-gray-800 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                             Sign Up
                                         </Button>
-                                    </div>
+                                    </>
                                 )}
                             </div>
                         </div>
                     </div>
 
-                    <Disclosure.Panel className="sm:hidden">
+                    <Disclosure.Panel className="md:hidden">
                         <div className="space-y-1 px-2 pb-3 pt-2">
-                            <Button as={Link} to="/login" variant="flat" className="relative rounded-full bg-gray-800 p-1 mr-2 hover:no-underline hover:bg-gray-700 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                Log In
-                            </Button>
-                            <Button as={Link} to="/signup" variant="flat" className="relative rounded-full bg-gray-300 p-1 hover:no-underline text-gray-800 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                Sign Up
-                            </Button>
                             {navigation.map((item) => (
                                 <Disclosure.Button
                                     key={item.name}
@@ -208,7 +210,6 @@ export default function Header() {
                                 >
                                     {item.name}
                                 </Disclosure.Button>
-
                             ))}
                         </div>
                     </Disclosure.Panel>

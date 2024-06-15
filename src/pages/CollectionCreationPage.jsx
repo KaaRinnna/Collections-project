@@ -6,12 +6,12 @@ import Footer from "../components/Footer.jsx";
 
 export default function CollectionCreationPage() {
     return (
-        <div>
+        <>
             <Header/>
-            <div className="container content">
+            <div className="container peaks">
                 <CollectionCreation/>
             </div>
             <Footer/>
-        </div>
+        </>
     )
 }

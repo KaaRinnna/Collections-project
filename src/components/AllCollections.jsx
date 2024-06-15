@@ -64,6 +64,7 @@ export default function AllCollections() {
             setLoading(false);
 
         }
+
         getDocList();
     }, []);
 

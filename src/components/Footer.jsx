@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {Text} from "../main.jsx";
 
 export default function Footer() {
     return (
@@ -13,7 +14,7 @@ export default function Footer() {
                     </Link>
                     <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-200">
                         <li>
-                            <Link to="/" className=" me-4 md:me-6 dark:text-gray-300">Home</Link>
+                            <Link to="/" className=" me-4 md:me-6 dark:text-gray-300"><Text tid="header home"/></Link>
                         </li>
 
                     </ul>

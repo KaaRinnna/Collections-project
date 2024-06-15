@@ -1,12 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {Autocomplete, AutocompleteItem, Input} from "@nextui-org/react";
 import {fieldTypes} from "./fieldTypes.js";
-
+import {LanguageContext} from "../../containers/Language.jsx";
 export default function FieldSelect({register, unregister}) {
     const [selectedKey, setSelectedKey] = useState(null);
     const prevKeyRef = useRef();
     const [fields, setFields] = useState({number: [{}, {}, {}], string: [{}, {}, {}],
         text: [{}, {}, {}], checkbox: [{}, {}, {}], date: [{}, {}, {}]});
+    const {dictionary} = useContext(LanguageContext);
 
     useEffect(() => {
         if (prevKeyRef.current && prevKeyRef.current !== selectedKey) {
@@ -16,7 +17,6 @@ export default function FieldSelect({register, unregister}) {
         }
         prevKeyRef.current = selectedKey;
     }, [selectedKey, unregister])
-
     const onSelectionChange = (id) => {
         setSelectedKey(id);
         if (fields[id].length < 3) {
@@ -30,7 +30,7 @@ export default function FieldSelect({register, unregister}) {
     return (
         <div className="flex w-full flex-wrap md:flex-nowrap gap-1">
             <Autocomplete
-                label="Select a field type"
+                label={dictionary["select field"]}
                 className="max-w-xs mb-2.5"
                 onSelectionChange={onSelectionChange}
                 variant="faded"

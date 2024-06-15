@@ -8,8 +8,8 @@ import {db} from "../../config/firebase.js";
 import {getDocs, getDoc, collection, doc, updateDoc} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 
-const usersRef = collection(db, "users");
 const getUserList = async () => {
+    const usersRef = collection(db, "users");
     try {
         const data = await getDocs(usersRef);
         const usersData = [];
@@ -59,6 +59,7 @@ export default function AdminTable() {
         try {
             const userRef = doc(db, 'users', userId);
             const userDoc = await getDoc(userRef);
+
             if (userDoc.exists()) {
                 const newRole = userDoc.data().role === 'admin' ? 'user' : 'admin';
                 await updateDoc(userRef, { role: newRole });
@@ -71,6 +72,7 @@ export default function AdminTable() {
 
     const renderCell = React.useCallback((user, columnKey) => {
         const cellValue = user[columnKey];
+
         switch (columnKey) {
             case "name":
                 return (
@@ -87,11 +89,10 @@ export default function AdminTable() {
                             </DropdownTrigger>
                             <DropdownMenu className="dark:text-gray-200">
                                 <DropdownItem onClick={() => viewUser(user.id)}>
-                                    View
+                                    Просмотеть
                                 </DropdownItem>
-                                <DropdownItem>Block/unblock</DropdownItem>
                                 <DropdownItem onClick={async() => await adminStatusChange(user.id)}>
-                                    Make/unmake an admin
+                                    Сделать/удалить из админов
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
@@ -103,8 +104,8 @@ export default function AdminTable() {
     }, []);
 
     return (
-        <div className="max-w-[700px] mx-auto my-12">
-            <h1 className="pt-2 text-center dark:text-gray-200">Users</h1>
+        <div className="max-w-[700px] mx-auto my-24">
+            <h1 className="pt-2 text-center dark:text-gray-200">Пользователи</h1>
             <Table aria-label="Table with authenticated users" className="max-w-[700px] mx-auto my-10">
                 <TableHeader columns={columns}>
                     {(column) => (
